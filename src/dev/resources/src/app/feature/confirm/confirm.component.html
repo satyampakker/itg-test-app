@@ -1,0 +1,109 @@
+
+<div class="grid-container">
+    <br>
+    <form class="usa-form">
+        <fieldset class="usa-fieldset">
+           
+            <legend class="usa-legend">Confirm Registration</legend>
+            <span>In order to complete your account set up please enter a new password.</span>
+
+            <div class="usa-alert usa-alert--info usa-alert--validation">
+                <div class="usa-alert__body">
+                    <h3 class="usa-alert__heading">Password information</h3>
+                    
+                            <div class="usa-alert__text">
+                                    <ul *ngIf="isSame()">Password must:
+                                    <li *ngIf="isLong()">
+                                        8+ characters in length
+                                    </li>
+                                    <li *ngIf="isUpper()">
+                                        Contain 1+ uppercase letter(s)
+                                    </li>
+                                    <li *ngIf="isLower()">
+                                        Contain 1+ lowercase letter(s)
+                                    </li>
+                                    <li *ngIf="isNumber()">
+                                        Contain 1+ number(s)
+                                    </li>
+                                    <li *ngIf="isSpecial()">
+                                        Contain 1+ special character(s)
+                                    </li>
+                                    <li *ngIf="isSame()">
+                                        New and Confirm Passwords must match
+                                    </li>
+                                    </ul>
+                                    <p *ngIf="!isSame()">Password is Acceptable and Strong.</p>
+                                </div>
+                    
+                </div>
+            </div>
+
+            <label class="usa-label" for="password-temp">Temp password</label>
+            <input class="usa-input" id="password-temp" name="password" type="password" [(ngModel)]="loginObj.temppassword" required="true" placeholder="temp password">
+
+            <label class="usa-label" for="password-new">New password</label>
+            <input class="usa-input" id="password-new" name="password" type="password" [(ngModel)]="loginObj.newpassword" required="true" placeholder="new password">
+
+            <label class="usa-label" for="password-conf">Confirm password</label>
+            <input class="usa-input" id="password-conf" name="confirmPassword" type="password" [(ngModel)]="loginObj.confpassword" required="true" placeholder="new password">
+            <p class="usa-form__note">
+                <a href="javascript:void(0);" class="usa-show-multipassword" aria-controls="password-new password-conf" >Show my typing</a>
+            </p>
+
+            <input type="button" (click)="updateUser()" class="usa-button full-width-button" id="submit" value="Update"  [disabled]="isSame()">
+        </fieldset>
+    </form>
+</div>
+<!-- <section class="ice-hero">
+    <div class="usa-grid">
+      <div class="usa-hero-callout usa-section-dark usa-width-one-third" style="float: right">
+        <h2>
+          <span class="usa-hero-callout-alt">Confirm Registration</span>
+        </h2>
+        <form>
+          <fieldset>
+            <legend class="usa-drop_text">Update Information</legend>
+            <span>In order to complete your account set up please enter a new password.</span>
+            <div>
+              <label for="password-temp">Temp Password</label>
+              <input id="password-temp" [(ngModel)]="loginObj.temppassword" name="password" type="password" required="true" placeholder="temp password">
+            </div>
+            <div>
+              <label for="password-new">New Password</label>
+              <input id="password-new" [(ngModel)]="loginObj.newpassword" name="password" type="password" required="true" placeholder="new password">
+            </div>
+            <div>
+              <label for="password-conf">Confirm Password</label>
+              <input id="password-conf" [(ngModel)]="loginObj.confpassword" name="password" type="password" required="true"  placeholder="confirm password">
+            </div>
+            <input type="button" (click)="updateUser()" class="usa-button full-width-button" id="submit" value="Update"  [disabled]="isSame()">
+          </fieldset>
+        </form>
+      </div>
+      <div class="usa-hero-callout usa-section-dark usa-width-one-third" style="float: right">
+        <div>
+          <ul *ngIf="isSame()">Password must:
+            <li *ngIf="isLong()">
+              8+ characters in length
+            </li>
+            <li *ngIf="isUpper()">
+              Contain 1+ uppercase letter(s)
+            </li>
+            <li *ngIf="isLower()">
+              Contain 1+ lowercase letter(s)
+            </li>
+            <li *ngIf="isNumber()">
+              Contain 1+ number(s)
+            </li>
+            <li *ngIf="isSpecial()">
+              Contain 1+ special character(s)
+            </li>
+            <li *ngIf="isSame()">
+              New and Confirm Passwords must match
+            </li>
+          </ul>
+          <p *ngIf="!isSame()">Password is Acceptable and Strong.</p>
+        </div>
+      </div>
+    </div>
+  </section> -->

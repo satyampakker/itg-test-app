@@ -1,0 +1,234 @@
+buildscript {
+	ext {
+		
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("se.transmode.gradle:gradle-docker:1.2")
+		classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.1")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+
+
+group = 'com.aceinfo.coe.template'
+version = '1.0.0'
+
+
+jar {
+    baseName = 'bdso-webapp'
+    version =  version
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+	compile group: 'com.offbytwo.jenkins', name: 'jenkins-client', version:'0.3.7'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.3'
+    compile group: 'com.alibaba', name: 'fastjson', version:'1.2.17'
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-cognitoidp', version:'1.11.313'
+    compile group: 'com.google.code.gson', name: 'gson', version:'2.7'
+	compile group: 'org.json', name: 'json', version: '20180130'
+    
+}
+
+dependencies {
+
+	testImplementation 'io.cucumber:cucumber-java:4.3.1'
+	 
+    
+
+    // Use JUnit test framework
+    testImplementation 'junit:junit:4.12'
+    
+    // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
+	compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+    
+    // https://mvnrepository.com/artifact/io.cucumber/gherkin
+	compile group: 'io.cucumber', name: 'gherkin', version: '5.1.0'
+	
+	// https://mvnrepository.com/artifact/net.masterthought/cucumber-reporting
+	compile group: 'net.masterthought', name: 'cucumber-reporting', version: '4.7.0'
+	
+	// https://mvnrepository.com/artifact/org.mockito/mockito-all
+	testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+	
+	// https://mvnrepository.com/artifact/io.cucumber/cucumber-core
+	compile group: 'io.cucumber', name: 'cucumber-core', version: '4.5.2'
+	
+	// https://mvnrepository.com/artifact/io.cucumber/cucumber-java
+	compile group: 'io.cucumber', name: 'cucumber-java', version: '4.5.2'
+	
+	// https://mvnrepository.com/artifact/io.cucumber/cucumber-junit
+	testCompile group: 'io.cucumber', name: 'cucumber-junit', version: '4.5.2'
+	
+	
+	// https://mvnrepository.com/artifact/org.jacoco/org.jacoco.core
+	compile group: 'org.jacoco', name: 'org.jacoco.core', version: '0.8.3'
+	
+
+
+	
+	
+	 compile 'io.github.bonigarcia:webdrivermanager:1.7.1'
+	 
+	 compile 'org.seleniumhq.selenium:selenium-java:3.4.0'
+
+	}
+
+apply plugin: 'docker'
+group = 'dhsjetsrecs'
+task buildDocker(type: Docker, dependsOn: build) {
+  push = false
+  applicationName = jar.baseName
+  dockerfile = file('src/main/docker/Dockerfile')
+  doFirst {
+    copy {
+      from jar
+      into stageDir
+    }
+  }
+}
+
+apply plugin: 'org.sonarqube'
+sonarqube {
+  properties {
+    property "sonar.projectName", "JETS Web App"
+    property "sonar.projectKey", "org.sonarqube:JETSWebAppAPI"
+    property "sonar.projectVersion",jar.baseName
+
+  }
+}
+
+apply plugin: 'findbugs'
+findbugs {
+    reportsDir = file("$project.buildDir/findbugs")
+    effort = "max"
+    reportLevel = "high"
+    ignoreFailures = "false"
+}
+
+test {
+
+    reports {
+        junitXml.enabled = true
+        //junitXml.enabled = false
+        html.enabled = true
+    }               
+}
+
+task testReport(type: TestReport) {
+  destinationDir = file("$project.buildDir/reports/allTests")
+  // Include the results from the `test` task in all subprojects
+    reportOn subprojects*.test
+}
+
+
+apply plugin: 'jacoco'
+jacocoTestCoverageVerification {
+  violationRules {
+    rule {
+      element = 'CLASS'
+      includes = [
+          'com.aceinfo.coe.prototypes.icesevistc.webapp.*',
+      ]
+      limit {
+        counter = 'LINE'
+        value = 'COVEREDRATIO'
+        minimum = 0.8
+      }
+      excludes = [
+      	
+      ]
+    }
+  }
+}
+
+
+def webappDir = "$projectDir/src/dev/resources"
+sourceSets {
+	main {
+		resources {
+			srcDirs = ["$projectDir/src/main/resources/static", "$projectDir/src/dev/resources", "$projectDir/src/main/resources"]
+			exclude "node_modules/**"
+		}
+	}
+}
+ 
+processResources {
+	dependsOn "buildAngular"
+}
+
+task buildAngular(type:Exec) {
+	// installAngular should be run prior to this task
+	// dependsOn "testAngular"
+	workingDir "$webappDir"
+	inputs.dir "$webappDir"
+	// Add task to the standard build group
+	group = BasePlugin.BUILD_GROUP
+	// ng doesn't exist as a file in windows -> ng.cmd
+	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
+		commandLine "ng.cmd", "build"
+	} else {
+		commandLine "ng", "build"
+	}
+}
+ 
+	task testAngular(type:Exec) {
+	// installAngular should be run prior to this task
+// 	dependsOn "installAngular"
+	workingDir "$webappDir"
+	inputs.dir "$webappDir"
+	// Add task to the standard build group
+	group = BasePlugin.BUILD_GROUP
+ 	// ng doesn't exist as a file in windows -> ng.cmd
+	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
+		commandLine "ng.cmd", "test"
+	} else {
+		commandLine "ng", "test"
+	}
+ }
+ 
+task installAngular(type:Exec) {
+	workingDir "$webappDir"
+	inputs.dir "$webappDir"
+	group = BasePlugin.BUILD_GROUP
+	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
+		commandLine "npm.cmd", "install"
+	} else {
+		commandLine "npm", "install"
+	}
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}	
+		
+/* task cucumber() {
+    dependsOn assemble, compileTestJava
+    
+    
+    doLast {
+        javaexec {
+        systemProperty "loginURL", findProperty("loginURL")
+        systemProperty "adminUsername", findProperty("adminUsername")
+        systemProperty "adminPassword", findProperty("adminPassword")
+            main = "cucumber.api.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin', 'pretty', '--glue', 'gradle.cucumber', 'src/test/resources/']
+        }
+    }
+}	 */	

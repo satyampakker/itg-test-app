@@ -1,0 +1,20 @@
+<div class="grid-row">
+<div class="grid-col-4" *ngFor="let item of localCelebrityList" style="margin: 10px 0px">
+
+        <p-card header={{item.name}} subheader= "Born {{item.birthdate | date:'MMMM d, yyyy'}} in {{item.birthplace}}" [style]="{width: '300px', height: '350px', 'text-align': 'center'}" styleClass="ui-card-shadow">
+        <p-header>
+                <div class="display-flex flex-column flex-align-center">
+                        <div class="align center" id="avatar" [ngStyle]="{background: 'url(' + item.headshot + ')', width: '70px', height: '75px'}" ></div>
+                </div>
+        </p-header>
+        <div> {{item.minibio.join(',').substr(0,164)}} </div>
+        <p-footer>
+                <a href="\celebrityprofile\{{item.id}}">View Profile</a>
+        </p-footer>
+        </p-card>
+
+</div>
+</div>
+
+
+        

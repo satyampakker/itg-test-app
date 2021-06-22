@@ -1,0 +1,28 @@
+<div class="boxChart__container">
+ 
+  <div>
+      
+      <div  class="pull-right">
+          <form #charinputs = "ngForm" (ngSubmit) = "onClickSubmit(charinputs.value)"    >
+              Chart Iteration   <input type = "text" style="width:40px" name = "iterationid" placeholder = "200" ngModel>
+           
+             No. Of Celebrities  <input type="text"    style="width:40px" placeholder=10 id="celebritiescountid"  name="celebritiescountid"  ngModel/>
+             &nbsp;&nbsp;  <input type = "submit" value = "Go">
+                </form>
+
+              </div>
+      <highcharts-chart
+        id="container"
+        [Highcharts]="Highcharts"
+        [constructorType]="chartConstructor"
+        [options]="chartOptions"
+        [callbackFunction]="chartCallback"
+        [(update)]="updateFromInput"
+        [oneToOne]="true"
+        style="width: 100%; display: block;"
+      >
+     
+      </highcharts-chart>
+   
+    </div>
+  </div>

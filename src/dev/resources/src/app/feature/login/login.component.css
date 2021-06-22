@@ -1,0 +1,36 @@
+.usa-hero{
+  font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
+  font-size:1.06rem;
+  line-height:1.5;
+  padding-bottom:2rem;
+  padding-top:2rem;
+  background-image:url("../../../assets/img/BitmapGoodDarkest.png");
+  background-position:center;
+  background-size:cover;
+  color:white;
+}
+
+.usa-hero-callout {
+
+  background-color:#4a4444;
+  opacity:0.75;
+  backdrop-filter:blur(1.5rem);
+  padding: 2rem;
+  max-width:20rem;
+}
+
+.usa-button {
+
+  background-color:black;
+}
+
+.usa-input-error-label {
+
+  color:white;
+}
+
+.usa-show-password {
+  color: #ffffff;
+}
+
+

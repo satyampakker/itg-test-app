@@ -1,0 +1,30 @@
+<section class="usa-hero">
+    <div class="grid-container class.ice-hero-records">
+        <div class="usa-hero-callout">
+            <h1 class="usa-hero__heading"><span class="usa-hero__heading--alt">Sign in</span>
+            </h1>
+            <form class="usa-form">
+                <fieldset class="usa-fieldset">
+                    <span class="usa-input-error-message" id="input-error-message" role="alert" *ngIf="error" >{{error}}</span>
+
+                    <label class="usa-label" for="username">Username</label>
+                    <input id="username" class="usa-input" name="username" type="text" [(ngModel)]="username" autocapitalize="off" autocorrect="off" required="true" placeholder="Username">
+                    
+                    <label class="usa-label" for="password-sign-in">Password</label>
+                    <input id="password-sign-in" class="usa-input" [(ngModel)]="password" name="password" type="password" required="true" placeholder="password">
+
+                    <p class="usa-form__note"><span routerLink="javascript:void(0);" class="usa-show-password usa-nav-link-2" aria-controls="password-sign-in">
+                        Show password
+                        </span></p>
+        
+                    <input type="button" (click)="loginUser()" class="usa-button full-width-button" id="submit" value="Sign In" >
+
+                    <p><span routerLink="/forgotPassword" class="usa-nav-link-2" id="modify1">
+                        Forgot Password
+                        </span></p>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</section>
+
