@@ -1,29 +1,42 @@
 buildscript {
 	ext {
-		
+		springBootVersion = '2.2.4.RELEASE'
 	}
 	repositories {
 		mavenCentral()
 	}
 	dependencies {
 		classpath("se.transmode.gradle:gradle-docker:1.2")
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 		classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.1")
 	}
 }
 
+
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
-
-
-group = 'com.aceinfo.coe.template'
+group = 'com.aceinfo.coe.commonservices'
 version = '1.0.0'
 
+bootJar {
+    manifest {
+    	from 'MANIFEST.MF'
+        attributes("Implementation-Title": "CoE Common Services - Webapp",
+        		   "Implementation-Vendor": "Ace Info Solutions, Inc.",
+                   "Implementation-Version": version)
+    }
+}
 
 jar {
-    baseName = 'bdso-webapp'
+    baseName = 'webapp'
     version =  version
 }
+
+
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -33,14 +46,40 @@ repositories {
 }
 
 dependencies {
-
-	compile group: 'com.offbytwo.jenkins', name: 'jenkins-client', version:'0.3.7'
+	implementation 'org.springframework.boot:spring-boot-starter'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version: '2.2.4.RELEASE'
+   	compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.2.4.RELEASE'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.2.4.RELEASE'
+    	
+   	compile group: 'org.springframework', name: 'spring-aspects', version: '5.1.0.RELEASE'
+    	
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+	
+	
+	// https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils
+	compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
+	compile group: 'org.dom4j', name: 'dom4j', version: '2.1.1'
+	
+	compile(group: 'com.offbytwo.jenkins', name: 'jenkins-client', version: '0.3.8')
+	{
+		 exclude group: 'dom4j'
+	}
+	
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.3'
-    compile group: 'com.alibaba', name: 'fastjson', version:'1.2.17'
-    compile group: 'com.amazonaws', name: 'aws-java-sdk-cognitoidp', version:'1.11.313'
-    compile group: 'com.google.code.gson', name: 'gson', version:'2.7'
+    compile group: 'com.alibaba', name: 'fastjson', version: '1.2.62'
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-cognitoidp', version:'1.11.717'
+    compile group: 'com.google.code.gson', name: 'gson', version:'2.8.6'
 	compile group: 'org.json', name: 'json', version: '20180130'
-    
+	
+	 testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'2.2.4.RELEASE') {
+		exclude(module: 'commons-logging')
+    }
+	
 }
 
 dependencies {
@@ -50,34 +89,37 @@ dependencies {
     
 
     // Use JUnit test framework
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
+    
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+	testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.6.0'
+    
     
     // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
 	compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
     
     // https://mvnrepository.com/artifact/io.cucumber/gherkin
-	compile group: 'io.cucumber', name: 'gherkin', version: '5.1.0'
+	compile group: 'io.cucumber', name: 'gherkin', version: '9.2.0'
 	
 	// https://mvnrepository.com/artifact/net.masterthought/cucumber-reporting
-	compile group: 'net.masterthought', name: 'cucumber-reporting', version: '4.7.0'
+	compile group: 'net.masterthought', name: 'cucumber-reporting', version: '5.0.2'
 	
 	// https://mvnrepository.com/artifact/org.mockito/mockito-all
 	testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
 	
 	// https://mvnrepository.com/artifact/io.cucumber/cucumber-core
-	compile group: 'io.cucumber', name: 'cucumber-core', version: '4.5.2'
+	compile group: 'io.cucumber', name: 'cucumber-core', version: '5.2.0'
 	
 	// https://mvnrepository.com/artifact/io.cucumber/cucumber-java
-	compile group: 'io.cucumber', name: 'cucumber-java', version: '4.5.2'
+	compile group: 'io.cucumber', name: 'cucumber-java', version: '5.2.0'
 	
 	// https://mvnrepository.com/artifact/io.cucumber/cucumber-junit
-	testCompile group: 'io.cucumber', name: 'cucumber-junit', version: '4.5.2'
+	testCompile group: 'io.cucumber', name: 'cucumber-junit', version: '5.2.0'
 	
 	
 	// https://mvnrepository.com/artifact/org.jacoco/org.jacoco.core
-	compile group: 'org.jacoco', name: 'org.jacoco.core', version: '0.8.3'
+	compile group: 'org.jacoco', name: 'org.jacoco.core', version: '0.8.5'
 	
-
 
 	
 	
@@ -88,7 +130,7 @@ dependencies {
 	}
 
 apply plugin: 'docker'
-group = 'dhsjetsrecs'
+group = 'aceinfocoe'
 task buildDocker(type: Docker, dependsOn: build) {
   push = false
   applicationName = jar.baseName
@@ -125,7 +167,7 @@ test {
         junitXml.enabled = true
         //junitXml.enabled = false
         html.enabled = true
-    }               
+    }
 }
 
 task testReport(type: TestReport) {
@@ -160,7 +202,7 @@ def webappDir = "$projectDir/src/dev/resources"
 sourceSets {
 	main {
 		resources {
-			srcDirs = ["$projectDir/src/main/resources/static", "$projectDir/src/dev/resources", "$projectDir/src/main/resources"]
+			srcDirs = ["$webappDir", "$projectDir/src/main/resources"]
 			exclude "node_modules/**"
 		}
 	}
@@ -181,7 +223,7 @@ task buildAngular(type:Exec) {
 	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
 		commandLine "ng.cmd", "build"
 	} else {
-		commandLine "ng", "build"
+		commandLine "npm", "build"
 	}
 }
  
@@ -194,11 +236,24 @@ task buildAngular(type:Exec) {
 	group = BasePlugin.BUILD_GROUP
  	// ng doesn't exist as a file in windows -> ng.cmd
 	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
-		commandLine "ng.cmd", "test"
+		commandLine "npm.cmd", "test"
 	} else {
-		commandLine "ng", "test"
+		commandLine "npm", "test"
 	}
  }
+ 
+	task protractor(type:Exec) {
+	// dependsOn "installAngular"
+	workingDir "$webappDir"
+	inputs.dir "$webappDir"
+	group = BasePlugin.BUILD_GROUP
+	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
+		commandLine "npm.cmd", "run", "e2e", "--webdriver-update=false"
+	} else {
+		
+		commandLine "npm", "run" ,"e2e", "--webdriver-update=false"
+	}
+}	
  
 task installAngular(type:Exec) {
 	workingDir "$webappDir"
@@ -207,6 +262,7 @@ task installAngular(type:Exec) {
 	if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
 		commandLine "npm.cmd", "install"
 	} else {
+		commandLine "npm", "install"
 		commandLine "npm", "install"
 	}
 }
@@ -217,7 +273,7 @@ configurations {
     }
 }	
 		
-/* task cucumber() {
+task cucumber() {
     dependsOn assemble, compileTestJava
     
     
@@ -228,7 +284,7 @@ configurations {
         systemProperty "adminPassword", findProperty("adminPassword")
             main = "cucumber.api.cli.Main"
             classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
-            args = ['--plugin', 'pretty', '--glue', 'gradle.cucumber', 'src/test/resources/']
+            args = ['--plugin', 'pretty', '--glue', 'gradle.cucumber', 'src/test/resources/gradle/cucumber/Dummy_feature.feature']
         }
     }
-}	 */	
+}			

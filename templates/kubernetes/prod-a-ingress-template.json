@@ -1,0 +1,65 @@
+{
+	"apiVersion": "extensions/v1beta1",
+	"kind": "Ingress",
+	"metadata": {
+		"name": "a-webapp-ingress",
+		"namespace":"a",
+		"annotations": {
+			"kubernetes.io/ingress.class": "nginx"
+		}
+	},
+	"spec": {
+		"rules": [
+			{
+				"host": "a-webapp-coe-prod.kubeapps.aceinfosolutions.com",
+				"http": {
+					"paths": [
+						{
+							"path": "",
+							"backend": {
+								"serviceName": "a-webapp-lb",
+								"servicePort": 9000
+							}
+						}
+					]
+				}
+			}
+		]
+	}
+}
+
+
+
+{
+	"apiVersion": "extensions/v1beta1",
+	"kind": "Ingress",
+	"metadata": {
+		"name": "b-webapp-ingress",
+		"namespace":"b",
+		"annotations": {
+			"kubernetes.io/ingress.class": "nginx"
+		}
+	},
+	"spec": {
+		"rules": [
+			{
+				"host": "b-webapp-coe-prod.kubeapps.aceinfosolutions.com",
+				"http": {
+					"paths": [
+						{
+							"path": "/",
+							"backend": {
+								"serviceName": "b-webapp-lb",
+								"servicePort": 9000
+							}
+						}
+					]
+				}
+			}
+		]
+	}
+}
+
+
+
+

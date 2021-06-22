@@ -1,1 +1,88 @@
-<p>movieprofile works!</p>
+<div class="grid-container">
+  <div *ngIf="curMovie">
+  <p-card [style]="{'text-align': 'center'}" styleClass="ui-card-shadow">
+
+    <p-header>
+      <div class="card">
+        <div class="display-flex flex-column flex-align-center">
+          <div class="align center" id="avatar" [ngStyle]="{background: 'url(' + curMovie.coverUrl + ')', width: '70px', height: '75px'}"></div>
+        </div>
+        <h2 style="margin-top:1%;margin-bottom:1%;">{{curMovie.movieTitle}}</h2>
+        <h3 class="title" style="">{{ this.genre }} </h3>
+        <h3 class="title" style="margin-bottom:1%;margin-top:1%;">Released in <i> {{curMovie.year}} </i></h3>
+        <span *ngIf="curMovie.writers.length > 0" class="title h3" style=""> Written by: 
+        {{writers.substr(0, writers.length-2)}}
+
+          <!--      <span *ngFor="let k of curMovie.writers; let writer = index;" class="title">
+            {{ k.name }}
+    </span>--> <!--.replace(' |', ',') }}</h3> -->
+        </span>
+      </div>
+    </p-header>
+
+
+    <div *ngIf="this.celebsPresent">
+      <p-carousel [value]="celebs" styleClass="custom-carousel" [numVisible]="3" [numScroll]="2" [circular]="true" [autoplayInterval]="3000">
+        <p-header>
+          <h3>Celebrities</h3>
+        </p-header>
+        <ng-template let-celeb pTemplate="item">
+          <div class="car-details">
+            <div class="p-grid p-nogutter">
+              <div class="p-col-12">
+                <img src="{{celeb.headshot}}" />
+              </div>
+              <div class="p-col-12 car-data">
+                <div class="car-title">{{celeb.name}}</div>
+                <div class="car-subtitle">{{celeb.birth_year}}</div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </p-carousel>
+    </div>
+    
+      <p-panel header="Information" [toggler]="'header'" [toggleable]="true">
+
+        <div class="ui-g grid-border-lightblue" style="">
+          <div class="ui-g-4" style="border-right: 1px red solid;">
+            <h3>Budget</h3>
+            <h4>{{ curMovie.budget }}</h4>
+          </div>
+          <div class="ui-g-4" style="border-right: 1px red solid; border-left: 1px red solid;">
+            <h3>Runtime</h3>
+            <h4>{{ curMovie.runTime }} minutes</h4>
+          </div>
+          <div class="ui-g-4" style="border-left: 1px red solid;">
+            <h3>Source</h3>
+            <!-- <h4>{{ curMovie.site }}</h4> -->
+            <a href="{{ curMovie.site }}">External Link ({{ curMovie.sourceFrom }})</a>
+          </div>
+        </div>
+
+
+      </p-panel>
+
+      <p-panel header="Plot" [toggler]="'header'" [toggleable]="true">
+        <div> {{curMovie.plot}} </div>
+        <div align="center">
+          <div *ngIf="curMovie.plot.length > 100">
+          <hr> 
+        <highcharts-chart
+            id="worcloud-container"
+            [Highcharts]="Highcharts"
+            [constructorType]="chartConstructor"
+            [options]="chartOptions"
+            [callbackFunction]="chartCallback"
+            [(update)]="updateFromInput"
+            [oneToOne]="true"
+            style="width: 100%; display: block;"
+            ></highcharts-chart>
+          </div>
+        </div>
+      </p-panel>
+
+  </p-card>
+  </div>
+</div>
+

@@ -3,9 +3,15 @@
         <div class="usa-hero-callout">
             <h1 class="usa-hero__heading"><span class="usa-hero__heading--alt">Sign in</span>
             </h1>
+            <br>
+            <label for="newuserConfirmationMsg">{{newuserConfirmationMsg}}</label>
             <form class="usa-form">
                 <fieldset class="usa-fieldset">
-                    <span class="usa-input-error-message" id="input-error-message" role="alert" *ngIf="error" >{{error}}</span>
+                    <!-- <span class="usa-input-error-message" id="input-error-message" *ngIf="error" >{{error}}</span> -->
+                    <br>
+                    <div class="usa-input-error-message" role="alert" *ngIf="error">
+                        {{error}}
+                    </div>
 
                     <label class="usa-label" for="username">Username</label>
                     <input id="username" class="usa-input" name="username" type="text" [(ngModel)]="username" autocapitalize="off" autocorrect="off" required="true" placeholder="Username">
@@ -21,7 +27,11 @@
 
                     <p><span routerLink="/forgotPassword" class="usa-nav-link-2" id="modify1">
                         Forgot Password
-                        </span></p>
+                        </span> 
+                        <span style="padding-right: 40px;"></span>
+                        <span routerLink="/newuser" class="usa-nav-link-2" id="modify1">
+                           Sign up
+                            </span></p>
                 </fieldset>
             </form>
         </div>

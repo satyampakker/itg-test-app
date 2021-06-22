@@ -1,0 +1,173 @@
+{
+	"kind": "Deployment",
+	"apiVersion": "apps/v1",
+	"metadata": {
+		"labels": {
+			"template": "webapp-production-deployment",
+			"group": "webapp-production-deployment",
+			"app": "a-webapp",
+			"environment": "production",
+			"track": "stable"
+		},
+		"annotations": {
+			"description": "webapp production deployment A/B",
+			"tags": "webapp-production-deployment"
+		},
+		"name": "a-webapp",
+		"namespace":"a"
+	},
+	"spec": {
+		"selector": {
+			"matchLabels": {
+				"app": "a-webapp"
+			}
+		},
+		"strategy": {
+			"rollingUpdate": {
+				"maxSurge": 1,
+				"maxUnavailable": 1
+			}
+		},
+		"replicas": 3,
+		"template": {
+			"metadata": {
+				"labels": {
+					"app": "a-webapp",
+					"track": "stable"
+				}
+			},
+			"spec": {
+				"containers": [
+					{
+						"resources":{
+						  "limits": {
+							"cpu": "200m",
+							"memory": "512Mi"
+						  },
+						  "requests": {
+							"cpu": "100m",
+							"memory": "256Mi"
+						  }
+						},
+						"name": "webapp",
+						"image": "nexus.aceinfosolutions.com:8441/aceinfocoe/webapp:1.0.0",
+						"env": [
+							{
+								"name": "ENVIRONMENT",
+								"value": "prod"
+							},
+							{
+								"name": "PROFILEENVIRONMENT",
+								"value": "prod"
+							},
+							{
+								"name": "DATABASE_NAME",
+								"value": "-database"
+							}
+						],
+						"ports": [
+							{
+								"containerPort": 9000
+							}
+						],
+
+						"imagePullPolicy": "Always"
+					}
+				],
+				"imagePullSecrets": [
+					{
+						"name": "coe-nexus"
+					}
+				]
+			}
+		}
+	}
+}
+
+{
+	"kind": "Deployment",
+	"apiVersion": "apps/v1",
+	"metadata": {
+		"labels": {
+			"template": "webapp-production-deployment",
+			"group": "webapp-production-deployment",
+			"app": "b-webapp",
+			"environment": "production-canary",
+			"track": "canary"
+		},
+		"annotations": {
+			"description": "webapp production deployment A/B",
+			"tags": "webapp-production-deployment"
+		},
+		"name": "b-webapp",
+		"namespace":"b"
+	},
+	"spec": {
+		"selector": {
+			"matchLabels": {
+				"app": "b-webapp"
+			}
+		},
+		"strategy": {
+			"rollingUpdate": {
+				"maxSurge": 1,
+				"maxUnavailable": 1
+			}
+		},
+		"replicas": 3,
+		"template": {
+			"metadata": {
+				"labels": {
+					"app": "b-webapp",
+					"track": "canary"
+				}
+			},
+			"spec": {
+				"containers": [
+					{
+						"resources": {
+						  "limits": {
+							"cpu": "200m",
+							"memory": "512Mi"
+						  },
+						  "requests": {
+							"cpu": "100m",
+							"memory": "256Mi"
+						  }
+						},
+						"name": "webapp",
+						"image": "nexus.aceinfosolutions.com:8441/aceinfocoe/webapp:1.0.0",
+						"env": [
+							{
+								"name": "ENVIRONMENT",
+								"value": "prod"
+							},
+							{
+								"name": "PROFILEENVIRONMENT",
+								"value": "prod"
+							},
+							{
+								"name": "DATABASE_NAME",
+								"value": "-database"
+							}
+						],
+						"ports": [
+							{
+								"containerPort": 9000
+							}
+						],
+						"imagePullPolicy": "Always"
+					}
+				],
+				"imagePullSecrets": [
+					{
+						"name": "coe-nexus"
+					}
+				]
+			}
+		}
+	}
+}
+
+
+

@@ -5,6 +5,7 @@ export class AppConfig {
     cognitoHttpString: string;
     tokenKey: string;
     cognitoAPIEP: string;
+    backendAPIEP: string;
     CelebMSEP: string;
 }
 export const APP_DI_CONFIG: AppConfig = {
@@ -14,4 +15,5 @@ export const APP_DI_CONFIG: AppConfig = {
     tokenKey: environment.tokenKey,
     cognitoAPIEP: environment.cognitoAPIEP,
     CelebMSEP : environment.celebMSEP,
+    backendAPIEP: environment.backendAPIEP,
 };

@@ -3,7 +3,7 @@
 # set defaults for dev mode
 environment="development"
 port="4200"
-command="docker run -d -v ${PWD}:/co-etech-training-web -v /co-etech-training-web/node_modules -p 4200:4200 --name co-etech-training-web --rm co-etech-training-web:dev"
+command="docker run -d -v ${PWD}:/CoETechTraining-Web/src/dev/resources/ -v /CoETechTraining-Web/node_modules -p 4200:4200 --name CoETechTraining-Web --rm coetech-training-web:dev"
 
 # if set to production, alter variable and command
 if [ "$1" == "-prod" ] 

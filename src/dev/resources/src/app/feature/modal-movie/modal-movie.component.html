@@ -1,0 +1,31 @@
+<!-- <p>modal-movie works!</p> -->
+<div class="modal-header" style="overflow-y:hidden;">
+  <div style="display:block">
+    <h4 class="modal-title">{{ this.movieObject.title }}  ({{this.movieObject.year}})</h4>
+    <h5>{{ this.movieObject.genres }}</h5>
+  </div>
+  <button type="button" class="close" aria-label="Close" (click)="passback('close')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+
+
+  <img style="margin-left:30%;width:40%" src={{this.movieObject.cover_url}}>
+  <br>
+  <br>
+  <div>
+    <p style="display:inline;"> <b>Budget: </b> <i>{{this.movieObject.budget}}</i></p>
+    &nbsp;
+    <p style="display:inline;"><b>Directors: </b> <i>{{this.movieObject.directors}}</i></p>
+  </div>
+  <hr>
+  <p>{{ this.movieObject.plot }}</p>
+
+
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" (click)="passback('full')">View Full Profile</button>
+  <button type="button" class="btn btn-default" (click)="passback('close')">Close</button>
+</div>

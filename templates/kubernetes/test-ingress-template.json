@@ -1,0 +1,28 @@
+{
+	"apiVersion": "extensions/v1beta1",
+	"kind": "Ingress",
+	"metadata": {
+		"name": "webapp-coe-test-ingress",
+		"annotations": {
+			"kubernetes.io/ingress.class": "nginx"
+		}
+	},
+	"spec": {
+		"rules": [
+			{
+				"host": "webapp-coe-test.kubeapps.aceinfosolutions.com",
+				"http": {
+					"paths": [
+						{
+							"path": "",
+							"backend": {
+								"serviceName": "webapp-coe-test-svc",
+								"servicePort": 9000
+							}
+						}
+					]
+				}
+			}
+		]
+	}
+}

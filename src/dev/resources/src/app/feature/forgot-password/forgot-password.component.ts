@@ -13,7 +13,6 @@ export class ForgotPasswordComponent implements OnInit {
   isSuccessUpdate = false;
   isWarningUpdate = false;
   isErrorUpdate = false;
-
   isWaitingResponse = true;
   isWaitingConfirmation = false;
   confCode = "";
@@ -27,7 +26,7 @@ export class ForgotPasswordComponent implements OnInit {
   firstName = '';
   lastName = '';
   httpError = false;
-
+  error = "";
 
 
   constructor( private userService: UserService,
@@ -71,12 +70,14 @@ export class ForgotPasswordComponent implements OnInit {
       resp => {
         console.log(JSON.stringify(resp, null, 4));
         this.isWaitingConfirmation = true;
+        this.error = "";
       },
         (err: HttpErrorResponse) => {
           console.log(err);
           this.isSuccessUpdate = false;
           this.isWarningUpdate = false;
           this.isErrorUpdate = true;
+          this.error = "Invalid Username"
         }
 
 

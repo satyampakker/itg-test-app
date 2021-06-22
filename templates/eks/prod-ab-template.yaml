@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: coe-tech-prod
+  name: webapp-coe-prod-ingress-ab
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/actions.forward-multiple-tg: >
+      {"Type":"forward","ForwardConfig":{"TargetGroups":[{"ServiceName":"a-webapp-lb","ServicePort":"9000","Weight":50},{"ServiceName":"b-webapp-lb","ServicePort":"9000","Weight":50}],"TargetGroupStickinessConfig":{"Enabled":true,"DurationSeconds":200}}}
+spec:
+  rules:
+    - http:
+        paths:
+          - path: 
+            backend:
+              serviceName: forward-multiple-tg
+              servicePort: use-annotation

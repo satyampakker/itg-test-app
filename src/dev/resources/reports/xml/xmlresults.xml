@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites disabled="0" errors="0" failures="0" tests="6" time="25.323">
+ <testsuite name="User should be able to view celebrities and movies" timestamp="2020-02-21T11:18:54" hostname="localhost" time="17.501" errors="0" tests="3" skipped="0" disabled="0" failures="0">
+  <testcase classname="User should be able to view celebrities and movies" name="should load the webapp and verify url" time="4.281" />
+  <testcase classname="User should be able to view celebrities and movies" name="should be able to login to site and view celebrities" time="9.105" />
+  <testcase classname="User should be able to view celebrities and movies" name="should be able to click on movies" time="4.112" />
+ </testsuite>
+ <testsuite name="User should be able to view forgot password screen" timestamp="2020-02-21T11:19:12" hostname="localhost" time="7.822" errors="0" tests="3" skipped="0" disabled="0" failures="0">
+  <testcase classname="User should be able to view forgot password screen" name="should load the webapp and verify url" time="3.022" />
+  <testcase classname="User should be able to view forgot password screen" name="should be able to click forget password" time="2.845" />
+  <testcase classname="User should be able to view forgot password screen" name="should be able to enter username/email" time="1.955" />
+ </testsuite>
+</testsuites>

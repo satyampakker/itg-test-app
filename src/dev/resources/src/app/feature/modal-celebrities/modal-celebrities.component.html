@@ -1,0 +1,80 @@
+<!-- <p>modal-celebrityObject works!</p> -->
+<!--
+	<div style="width: 100px;">
+	<div  style="top:30px;right:30px;width:200px;">
+	<button type="button" class="close" aria-label="Close" (click)="passback('close')">
+	<span aria-hidden="true">&times; Close</span>
+	</button>
+	<div style="display:block">
+	<h4 class="modal-title">{{ this.celebrityObject.name }}  </h4>
+
+	</div>
+
+	</div>
+	<div style="width:800px;">
+
+
+	<img style="margin-left:30%;width:10%" src={{this.celebrityObject.headshot}}>
+	<br>
+	<br>
+	<div>
+	<p style="display:inline;"> <b>Name: </b> <i>{{this.celebrityObject.name}}</i></p>
+	&nbsp;
+	<br>
+	<p style="display:inline;"><b>Birth Date: </b> <i>{{this.celebrityObject.birthdate}}</i></p>
+	<br>
+	<p style="display:inline;"><b>Brith Place: </b> <i>{{this.celebrityObject.birthplace}}</i></p>
+	<br>
+	<p style="display:inline;"><b>Mini Bio: </b> <i>{{this.celebrityObject.minibio}}</i></p>
+	</div>
+	<hr>
+	<p>{{ this.celebrityObject.plot }}</p>
+
+
+	</div>
+-->
+<!-- <div class="modal-footer">
+	<button type="button" class="btn btn-primary" (click)="passback('full')">View Full Profile</button>
+	<button type="button" class="btn btn-default" (click)="passback('close')">Close</button>
+	</div> 
+	</div>
+-->
+
+<!------------------------------- -->
+<!-- <div> -->
+<div style="position:absolute;left:25%;right:25%;width:300px;height:300px;overflow-y:auto;z-index:10;">
+	<div class="modal-header"><!-- style="top:500px;right:500px;"> -->
+		<div style="display:block">
+			<h4 class="modal-title">{{ this.celebrityObject.name }}  ({{this.celebrityObject.birth_year}})</h4>
+			<h5>{{ this.celebrityObject.birthplace }}</h5>
+		</div>
+		<button type="button" class="close" aria-label="Close" (click)="passback('close')">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+
+
+
+		<img style="margin-left:30%;width:40%" src={{this.celebrityObject.headshot}}>
+		<br>
+		<br>
+		<div>
+
+			<p style="display:inline;"><b>Birth Date: </b> <i>{{this.celebrityObject.birthdate}}</i></p>
+			<br>
+			<p style="display:inline;"><b>Birth Place: </b> <i>{{this.celebrityObject.birthplace}}</i></p>
+			<br>
+			<p style="display:inline;"><b>Mini Bio: </b> {{this.celebrityObject.minibio}}</p>
+		</div>
+		<hr>
+
+
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary" (click)="passback('full')">View Full Profile</button>
+		<button type="button" class="btn btn-default" (click)="passback('close')">Close</button>
+	</div>
+</div>
+
+

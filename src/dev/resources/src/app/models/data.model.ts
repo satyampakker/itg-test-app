@@ -4,7 +4,7 @@ export interface ICelebrity {
     nickname: string,
     birthdate : Date,
     birthplace: string,
-    minibio: string,
+    miniBio: string,
     height : string,
     headshot : string,
     moviesList : string[]
@@ -20,4 +20,9 @@ export interface IMovie {
     genres: string[],
     directors: string[],
     plot: string[]    
+}
+
+export interface DataObject{
+  celeb?:ICelebrity[],
+  movie?:IMovie[]
 }

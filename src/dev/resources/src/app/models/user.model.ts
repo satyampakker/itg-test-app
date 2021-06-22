@@ -4,7 +4,7 @@ export interface IUser {
     lastName: string,
     userName: string,
     password: string,
-    token?: string,
+    cognitoSession?: string,
     email: string,
     //userGroups : IUserGroup[]
 }

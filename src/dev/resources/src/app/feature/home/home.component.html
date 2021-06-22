@@ -2,11 +2,12 @@
 <div class="grid-container">
   <br>  
 
-  <form class="usa-search usa-search--big" style="margin-left:17%;">
-    <div role="search">
+
+  <form class="usa-search usa-search--big">
+    <div role="search" style="margin-left:150px;">
       <label class="usa-sr-only" for="search-field-big">Search</label>
-      <input class="usa-input" id="search-field-big" type="search" name="search">
-      <button class="usa-button" type="submit">
+      <input class="usa-input" id="search-field-big" [(ngModel)]="searchTerm" type="search" name="search">
+      <button class="usa-button" type="submit" (click)="search(searchTerm);">
         <span class="usa-search__submit-text">Search</span>
       </button>
     </div>
@@ -15,23 +16,33 @@
   <br>
   <br>
 
-  <p-tabView orientation="top" [(activeIndex)]="index">
-    <p-tabPanel header="Celebrities" leftIcon="pi pi-star"> 
-      <!-- <div detect-scroll (onScroll)="handleScrollDownCelebrities($event)" style="height:700px;width:100%;overflow-x:hidden;overflow-y:auto;"> -->
-        <app-celebrities></app-celebrities>
-      <!-- </div> -->
+
+  <p-tabView orientation="top" (onChange)="setActiveTab($event)">
+    <p-tabPanel header="Celebrities" leftIcon="pi pi-star" [index]="celebTab"> 
+      <app-celebrities></app-celebrities>
     </p-tabPanel>
-    <p-tabPanel header="Movies" leftIcon="pi pi-video">
-      <!-- <div detect-scroll (onScroll)="handleScrollDownMovies($event)" style="height:700px;width:100%;overflow-x:hidden;overflow-y:auto;"> -->
-        <app-movies></app-movies>
-      <!-- </div> -->
+    <p-tabPanel header="Movies" leftIcon="pi pi-video" [index]="movieTab">
+      <app-movies></app-movies>
     </p-tabPanel>
-    <p-tabPanel header="Visualize" leftIcon="pi pi-chart-bar">
-      <!-- <div detect-scroll (onScroll)="handleScrollDownVisualize($event)" style="height:700px;width:100%;overflow-x:hidden;overflow-y:auto;"> -->
-        <app-visualize></app-visualize>
-      <!-- </div> -->
-      </p-tabPanel>
+    <p-tabPanel header="Visualize" leftIcon="pi pi-chart-bar" [index]="visTab">
+      <app-visualize></app-visualize>
+    </p-tabPanel>
   </p-tabView>
+      <!-- Balas changes below 
+
+        <p-tabView orientation="top" [(activeIndex)]="index">
+        <p-tabPanel header="Celebrities" leftIcon="pi pi-star"> 
+        <app-celebrities #celebTab></app-celebrities>
+        </p-tabPanel>
+        <p-tabPanel header="Movies" leftIcon="pi pi-video">
+        <app-movies #movieTab></app-movies>
+        </p-tabPanel>
+        <p-tabPanel header="Visualize" leftIcon="pi pi-chart-bar">
+        <app-visualize #visTab></app-visualize>
+        </p-tabPanel>
+        </p-tabView>
+      -->
+
+      <br>
 </div>
-  
-<br>
+

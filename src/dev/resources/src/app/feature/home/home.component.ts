@@ -5,7 +5,10 @@ import { MoviesComponent } from '../movies/movies.component';
 import { VisualizeComponent } from '../visualize/visualize.component';
 import { ActivatedRoute } from '@angular/router';
 //import {TabMenuModule} from 'primeng/tabmenu';
+
 //import {MenuItem} from 'primeng/api';
+import { TabService } from '../../services/tab.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +18,17 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
+  httpError = false;
+  isSuccessUpdate = false;
+  isWarningUpdate = false;
+  isErrorUpdate = false;
+  isWaitingResponse = true;
+  isWaitingConfirmation = false;
 
+  
+  activeTab = 'celeb';
+  msg = '';
+  //items: MenuItem[];
   @ViewChild(CelebritiesComponent, {static: false})
   private celebrityComponent: CelebritiesComponent;
   @ViewChild(MoviesComponent, {static: false})
@@ -26,14 +39,54 @@ export class HomeComponent implements OnInit {
 
   public index : number;
 
-  constructor() { }
+  constructor( private tabService: TabService,
+               private userService: UserService ) { }
 
-  ngOnInit() {
-  //   this.items = [
-  //     {label: 'Celebrities', icon: 'pi pi-star', routerLink: ['/celebrities']},
-  //     {label: 'Movies', icon: 'pi pi-video', routerLink: ['/movies']},
-  //     {label: 'Visualize', icon: 'pi pi-chart-bar', routerLink: ['/visualize']}
-  // ];
+  ngOnInit() {  this.tabService.initTab();  }
+  
+  setActiveTab(t){
+    this.tabService.setActiveTab(t);
+  }
+
+  search(term){
+
+    this.isWaitingResponse = false;
+    //call user service api here
+
+    this.tabService.announceSearchMade(term);
+
+/*
+    this.userService.searchMovie(term).subscribe(
+      resp => {
+        console.log(JSON.stringify(resp, null, 4));
+      },
+        (err: HttpErrorResponse) => {
+          console.log(err);
+          this.isWaitingResponse = false;
+          this.httpError = true;
+          this.isSuccessUpdate = false;
+          this.isWarningUpdate = false;
+          this.isErrorUpdate = true;
+        },
+        () => {
+
+          this.httpError = false;
+          this.isWaitingResponse = false;
+          console.log("IN HTTPRESPONSE");
+
+        }
+    );
+  */
+    console.log("After making call in finish")
+
+
+
+
+
+
+
+
+
 
   }
 

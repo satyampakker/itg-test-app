@@ -1,10 +1,11 @@
-
-<div class="grid-container">
-    <br>
+<section class="usa-hero">
+  <div class="grid-container">
+    <div class="usa-hero-callout">
+      <h1 class="usa-hero__heading"><span class="usa-hero__heading--alt">Confirm Registration</span>
+      </h1>
     <form class="usa-form">
         <fieldset class="usa-fieldset">
            
-            <legend class="usa-legend">Confirm Registration</legend>
             <span>In order to complete your account set up please enter a new password.</span>
 
             <div class="usa-alert usa-alert--info usa-alert--validation">
@@ -53,7 +54,9 @@
             <input type="button" (click)="updateUser()" class="usa-button full-width-button" id="submit" value="Update"  [disabled]="isSame()">
         </fieldset>
     </form>
+  </div>
 </div>
+</section>
 <!-- <section class="ice-hero">
     <div class="usa-grid">
       <div class="usa-hero-callout usa-section-dark usa-width-one-third" style="float: right">

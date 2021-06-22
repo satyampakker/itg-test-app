@@ -1,0 +1,31 @@
+<section class="usa-hero">
+    <div class="grid-container class.ice-hero-records">
+        <div class="usa-hero-callout">
+            <h1 class="usa-hero__heading"><span class="usa-hero__heading--alt">New User Registration Confirmation</span>
+            </h1>
+
+            <form class="usa-form" [formGroup]="regconfirmForm" (ngSubmit)="onSubmit()">  
+                  
+                <div>
+                <div class="usa-input-error-message" role="alert" *ngIf="newuserConfirmationValidation">
+                    {{newuserConfirmationValidation}}
+                </div>  
+                <label class="usa-label" for="userName">User Name</label>
+                    <input formControlName="userName"  [(ngModel)]="userName"  class="usa-input" type="text" readonly  placeholder="User Name">
+                </div> 
+               
+                <div>
+                    <label class="usa-label" for="confirmationCode">Confirmation Code</label>
+                    <input  formControlName="confirmationCode"  [(ngModel)]="confirmationCode"  class="usa-input" name="confirmationCode" type="text"  autocapitalize="off" autocorrect="off" required="true" placeholder="confirmation Code">
+                </div>
+                    <div *ngIf="submitted && f.confirmationCode.errors" >
+                        <div *ngIf="f.confirmationCode.errors.required">Confirmation Code is required</div>
+                    </div>
+               
+                <button class="usa-button full-width-button" >Register</button>
+                </form>
+                <!-- <label for="newuserConfirmationValidation">{{newuserConfirmationValidation}}</label> -->
+
+        </div>
+    </div>
+</section>

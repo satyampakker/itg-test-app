@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError  } from 'rxjs';
 import {catchError, map} from 'rxjs/operators'
 
@@ -23,11 +23,11 @@ export class TokenInterceptorService implements HttpInterceptor {
   //         //'Content-Type': 'application/json'
   // });
 
-    if (currentUser && currentUser.token) {
+    if (currentUser && currentUser.cognitoSession) {
         request = request.clone({
-            setHeaders: {
-                Authorization: `Bearer ${currentUser.token}`
-            }
+            headers: new HttpHeaders ({
+                Authorization: `Bearer ${currentUser.cognitoSession}`
+            })
         });
     }
     console.log(request);
@@ -41,8 +41,7 @@ export class TokenInterceptorService implements HttpInterceptor {
           this.authService.logout();
       }
       console.log(err);
-      const error = err.error.message || err.statusText;
-      console.log(error);
+      const error = err.error;
       return throwError(error);
   })
   );

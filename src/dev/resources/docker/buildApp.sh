@@ -4,8 +4,8 @@
 if [ "$1" == "-prod" ] 
 then 
   echo "building production docker image"
-  docker build -f Dockerfile-prod -t co-etech-training-web:prod .
+  docker build -f Dockerfile-prod -t CoETechTraining-Web:prod .
 else 
   echo "building development docker image"
-  docker build -t co-etech-training-web:dev .
+  docker build -t CoETechTraining-Web:dev .
 fi

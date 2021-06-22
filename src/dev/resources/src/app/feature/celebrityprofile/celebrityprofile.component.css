@@ -1,0 +1,30 @@
+#avatar {
+    /* This image is 687 wide by 1024 tall, similar to your aspect ratio */
+    /*background-image: url('http://i.stack.imgur.com/Dj7eP.jpg');*/
+    
+    /* make a square container */
+ /*   width: 100px;
+    height: 100px;
+
+    /* fill the container, preserving aspect ratio, and cropping to fit */
+    background-size: cover;
+
+    /* center the image vertically and horizontally */
+    background-position: top center;
+
+    /* round the edges to a circle with border radius 1/2 container size */
+    border-radius: 20%;
+}
+
+.card
+{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+    background-image: url("../../../assets/img/usercard.png");
+}
+.title 
+{
+    color: grey;
+}

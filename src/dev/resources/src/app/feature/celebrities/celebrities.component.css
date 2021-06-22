@@ -15,3 +15,18 @@
     /* round the edges to a circle with border radius 1/2 container size */
     border-radius: 50%;
 }
+.dark-modal .modal-content {
+      background-color: #292b2c;
+      color: white;
+    }
+.dark-modal .close {
+      color: white;
+    }
+ .light-blue-backdrop {
+      background-color: #5cb3fd;
+    }
+    .xlModal > .modal-dialog {
+      max-width: 400px !important;
+      min-width: 300px !important;   
+      width: 40% !important;
+  }

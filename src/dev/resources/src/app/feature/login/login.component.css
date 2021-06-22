@@ -24,9 +24,16 @@
   background-color:black;
 }
 
-.usa-input-error-label {
+.usa-nav-link-3
+{
+  padding-right:10%;
 
-  color:white;
+
+}
+.usa-input-error-message {
+
+  color:red;
+  background-color: rgb(216, 209, 209);
 }
 
 .usa-show-password {

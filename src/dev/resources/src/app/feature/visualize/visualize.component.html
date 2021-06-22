@@ -1,6 +1,6 @@
 <div class="boxChart__container">
  
-  <div>
+  <div *ngIf="chartLoaded">
       
       <div  class="pull-right">
           <form #charinputs = "ngForm" (ngSubmit) = "onClickSubmit(charinputs.value)"    >
@@ -9,6 +9,7 @@
              No. Of Celebrities  <input type="text"    style="width:40px" placeholder=10 id="celebritiescountid"  name="celebritiescountid"  ngModel/>
              &nbsp;&nbsp;  <input type = "submit" value = "Go">
                 </form>
+
 
               </div>
       <highcharts-chart

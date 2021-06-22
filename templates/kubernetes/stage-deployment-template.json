@@ -1,0 +1,72 @@
+{
+	"kind": "Deployment",
+	"apiVersion": "apps/v1",
+	"metadata": {
+		"labels": {
+			"template": "webapp-stage-deployment",
+			"group": "webapp-stage-deployment",
+			"app": "webapp-coe-stag",
+			"environment": "stage",
+			"track": "stable"
+		},
+		"annotations": {
+			"description": "webapp stage deployment",
+			"tags": "webapp-stage-deployment"
+		},
+		"name": "webapp-coe-stag"
+	},
+	"spec": {
+		"selector": {
+			"matchLabels": {
+				"app": "webapp-coe-stag"
+			}
+		},
+		"strategy": {
+			"rollingUpdate": {
+				"maxSurge": 1,
+				"maxUnavailable": 1
+			}
+		},
+		"replicas": 1,
+		"template": {
+			"metadata": {
+				"labels": {
+					"app": "webapp-coe-stag"
+				}
+			},
+			"spec": {
+				"containers": [
+					{
+						"name": "webapp-coe-stag",
+						"image": "nexus.aceinfosolutions.com:8441/aceinfocoe/webapp:1.0.0",
+						"env": [
+							{
+								"name": "ENVIRONMENT",
+								"value": "stage"
+							},
+							{
+								"name": "PROFILEENVIRONMENT",
+								"value": "stage"
+							},
+							{
+								"name": "DATABASE_NAME",
+								"value": "-database"
+							}
+						],
+						"ports": [
+							{
+								"containerPort": 9000
+							}
+						],
+						"imagePullPolicy": "Always"
+					}
+				],
+				"imagePullSecrets": [
+					{
+						"name": "coe-nexus"
+					}
+				]
+			}
+		}
+	}
+}

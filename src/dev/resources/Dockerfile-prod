@@ -17,7 +17,7 @@ WORKDIR /co-etech-training-web
 ENV PATH /co-etech-training-web/node_modules/.bin:$PATH
 
 # install and cache co-etech-training-web dependencies
-COPY package.json /co-etech-training-web/package.json
+COPY package.json /var/lib/jenkins/workspace/WebAppCICD/src/dev/resources/package.json
 RUN npm install
 RUN npm install -g @angular/cli@7.3.9
 

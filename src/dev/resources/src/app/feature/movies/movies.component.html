@@ -1,18 +1,24 @@
 <div class="grid-row">
     <div class="grid-col-4" *ngFor="let item of localMovieList" style="margin: 10px 0px">
     
-        <p-card  header="{{item.title}} ({{item.year}})" subheader="{{item.genres.join( ' | ') }}" [style]="{width: '300px', height: '500px', 'text-align': 'center'}" styleClass="ui-card-shadow">
+
+		<!--<p-card (click)="openModal(item)" header="{{item.title}} ({{item.year}})" subheader="{{item.genres}}" [style]="{width: '300px', height: '500px', 'text-align': 'center'}" styleClass="ui-card-shadow">-->
+        <p-card header="{{item.title}} ({{item.year}})" subheader="{{item.genres}}" [style]="{width: '300px', height: '500px', 'text-align': 'center'}" styleClass="ui-card-shadow">
+
             <!-- <p-header>
                 <div class="display-flex flex-column flex-align-center">
             </div>
             </p-header> -->
-            <img  src={{item.cover_url}}  style="width:100px;height:150px;">
+            <img  src={{item.cover_url}}  style="width:100px;height:150px;" (click)="testMovieService()">
             <div> <b>Budget: </b> <i>{{item.budget}}</i></div>
-            <div><b>Directors: </b> <i>{{item.directors}}</i></div>
+			<!--<div *ngIf="item.directors"><b>Writers: </b> <i>{{item.directors}}</i></div> -->
+			<!--<div *ngIf="!item.directors"><b>Writers: </b> <i>N/A</i></div> -->
             <br>
-            <div>{{item.plot.join(', ').substr(0,150)}}</div>
+            <div>{{item.plot.substr(0, 162)}}..</div>
             <p-footer>
-                    <a href="\movieprofile\{{item.id}}">View Movie Profile</a>
+
+              <!--                    <button class="btn btn-primary" (click)="openFullMovieView(item)">View Movie Profile</button>   -->
+              <a (click)="clickProfile(item)">View Profile</a>
             </p-footer>
             </p-card>
     </div>

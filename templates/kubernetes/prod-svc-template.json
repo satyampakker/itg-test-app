@@ -1,0 +1,99 @@
+{
+"apiVersion": "v1",
+	"kind": "Service",
+	"metadata": {
+		"name":"a-webapp-lb",
+		"namespace":"a"
+	},
+"spec": {
+		"externalTrafficPolicy": "Local",
+		"ports": [
+			{
+				"port": 9000,
+				"targetPort": 9000,
+				"protocol": "TCP",
+				"name": "http"
+			}
+		],
+		"selector": {
+			"app": "a-webapp"
+		},
+		"type": "LoadBalancer"
+	}
+	
+}
+
+{
+"apiVersion": "v1",
+	"kind": "Service",
+	"metadata": {
+		"name":"b-webapp-lb",
+		"namespace":"b"
+	},
+"spec": {
+		"externalTrafficPolicy": "Local",
+		"ports": [
+			{
+				"port": 9000,
+				"targetPort": 9000,
+				"protocol": "TCP",
+				"name": "http"
+			}
+		],
+		"selector": {
+			"app": "b-webapp"
+		},
+		"type": "LoadBalancer"
+	}
+	
+}
+
+{
+"apiVersion": "v1",
+	"kind": "Service",
+	"metadata": {
+		"name":"ab-webapp-lb",
+		"namespace":"a"
+	},
+"spec": {
+		"externalTrafficPolicy": "Local",
+		"ports": [
+			{
+				"port": 9000,
+				"targetPort": 9000,
+				"protocol": "TCP",
+				"name": "http"
+			}
+		],
+		"selector": {
+			"app": "a-webapp"
+		},
+		"type": "LoadBalancer"
+	}
+	
+}
+
+{
+"apiVersion": "v1",
+	"kind": "Service",
+	"metadata": {
+		"name":"ab-webapp-lb",
+		"namespace":"b"
+	},
+"spec": {
+		"externalTrafficPolicy": "Local",
+		"ports": [
+			{
+				"port": 9000,
+				"targetPort": 9000,
+				"protocol": "TCP",
+				"name": "http"
+			}
+		],
+		"selector": {
+			"app": "b-webapp"
+		},
+		"type": "LoadBalancer"
+	}
+	
+}

@@ -1,0 +1,33 @@
+.card
+{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+    background-image: url("../../../assets/img/usercard.png");
+}
+.h3 {
+  font-size: 1.17em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+.title 
+{
+    color: grey;
+}
+
+.grid-border-lightblue {
+  border-top: 5px solid #2badcc;
+  border-right: 5px solid #2badcc;
+  border-left: 5px solid #2badcc;
+  border-bottom: 5px solid #2badcc;
+}
+.grid-border-red {
+  border-top: 1px solid red;
+  border-right: 1px solid red;
+  border-left: 1px solid red;
+  border-bottom: 1px solid red;
+}

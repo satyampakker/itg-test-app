@@ -1,0 +1,107 @@
+{
+	"apiVersion": "v1",
+		"kind": "Service",
+		"metadata": {
+			"name":"a-webapp-lb",
+			"namespace":"coe-tech-prod"
+		},
+	"spec": {
+		"ports": [
+			{
+				"port": 9000,
+				"targetPort": 9000,
+				"protocol": "TCP",
+				"name": "http"
+			}
+		],
+		"selector": {
+			"app": "a-webapp"
+		},
+		"type": "NodePort"
+	}
+}
+
+{
+	"kind": "Deployment",
+	"apiVersion": "apps/v1",
+	"metadata": {
+		"labels": {
+			"template": "webapp-production-deployment",
+			"group": "webapp-production-deployment",
+			"app": "a-webapp",
+			"environment": "production",
+			"track": "stable"
+		},
+		"annotations": {
+			"description": "webapp production deployment A/B",
+			"tags": "webapp-production-deployment"
+		},
+		"name": "webapp-coe-prod-a",
+		"namespace":"coe-tech-prod"
+	},
+	"spec": {
+		"selector": {
+			"matchLabels": {
+				"app": "a-webapp"
+			}
+		},
+		"strategy": {
+			"rollingUpdate": {
+				"maxSurge": 1,
+				"maxUnavailable": 1
+			}
+		},
+		"replicas": 1,
+		"template": {
+			"metadata": {
+				"labels": {
+					"app": "a-webapp"
+				}
+			},
+			"spec": {
+				"containers": [
+					{
+						"resources":{
+						  "limits": {
+							"cpu": "200m",
+							"memory": "512Mi"
+						  },
+						  "requests": {
+							"cpu": "100m",
+							"memory": "256Mi"
+						  }
+						},
+						"name": "webapp",
+						"image": "nexus.aceinfosolutions.com:8441/aceinfocoe/webapp:1.0.0",
+						"env": [
+							{
+								"name": "ENVIRONMENT",
+								"value": "prod"
+							},
+							{
+								"name": "PROFILEENVIRONMENT",
+								"value": "prod"
+							},
+							{
+								"name": "DATABASE_NAME",
+								"value": "-database"
+							}
+						],
+						"ports": [
+							{
+								"containerPort": 9000
+							}
+						],
+
+						"imagePullPolicy": "Always"
+					}
+				],
+				"imagePullSecrets": [
+					{
+						"name": "coe-nexus"
+					}
+				]
+			}
+		}
+	}
+}

@@ -1,0 +1,76 @@
+<section class="usa-hero">
+    <div class="grid-container class.ice-hero-records">
+        <div class="usa-hero-callout">
+            <h1 class="usa-hero__heading"><span class="usa-hero__heading--alt">Sign up</span>
+            </h1>
+
+            <form class="usa-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()"> 
+                <fieldset class="usa-fieldset">
+                    <!-- <span class="usa-input-error-message" id="input-error-message" role="alert" *ngIf="error" >{{error}}</span>-->
+                <div>
+                    <div class="usa-input-error-message" role="alert" *ngIf="newuserValidation">
+                        {{newuserValidation}}
+                    </div>
+                    <label class="usa-label" for="firstName">First Name*</label> 
+                    <!-- <input id="firstname" class="usa-input" name="firstname" type="text" [(ngModel)]="firstname" 
+                    [ngClass]="{ 'is-invalid': submitted && f.firstname.errors }" required="true" placeholder="FirstName"> -->
+                  
+                    <input type="text" [(ngModel)]="firstName" placeholder="First Name" formControlName="firstName" class="usa-input" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+
+                    <div *ngIf="submitted && f.firstName.errors" >
+                        <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                    </div>
+                </div>
+
+                <label class="usa-label" for="lastName">Last Name*</label>
+                    <input formControlName="lastName" [(ngModel)]="lastName" class="usa-input" name="lastName" type="text" autocapitalize="off" autocorrect="off" required="true" placeholder="LastName">
+                    
+                    <div *ngIf="submitted && f.lastName.errors" >
+                        <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+                    </div>
+                    <label class="usa-label" for="emailid">Email ID*</label>
+                    <input formControlName="emailid" [(ngModel)]="emailid"  class="usa-input" name="emailid" type="text"  autocapitalize="off" autocorrect="off" required="true" placeholder="Email id">
+                    
+                    <div *ngIf="submitted && f.emailid.errors" >
+                        <div *ngIf="f.emailid.errors.required">emailid is required</div>
+                        <div *ngIf="f.emailid.errors.email">Email must be a valid email address</div>
+                    </div>
+
+                    <label class="usa-label" for="userName">User Name*</label>
+                    <input formControlName="userName"  [(ngModel)]="userName"  class="usa-input" name="userName" type="text"  autocapitalize="off" autocorrect="off" required="true" placeholder="User Name">
+                  
+                    <div *ngIf="submitted && f.userName.errors" >
+                        <div *ngIf="f.userName.errors.required">User Name is required</div>
+                    </div>
+
+
+                    <label class="usa-label" for="password">Password*</label>
+                    <input formControlName="password"   [(ngModel)]="password" class="usa-input" name="password" type="password"  autocapitalize="off" autocorrect="off" required="true" placeholder="Password">
+                    
+                    <div *ngIf="submitted && f.password.errors" >
+                        <div *ngIf="f.password.errors.required">Password is required</div>
+                        <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                    </div>
+
+
+                    <label class="usa-label" for="confirmPassword">Confirm Password*</label>
+                    <input formControlName="confirmPassword" class="usa-input" name="confirmPassword" type="password"  autocapitalize="off" autocorrect="off" required="true" placeholder="Confirm Password">
+                    
+                <div *ngIf="submitted && f.confirmPassword.errors" >
+                        <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
+                        <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>
+                    </div>
+                  <!--  <input id="password-sign-in" class="usa-input" [(ngModel)]="password" name="password" type="password" required="true" placeholder="password">
+       
+                    <input type="button"  class="usa-button full-width-button" id="submit" value="Register" > -->
+                    <button class="usa-button full-width-button" >Sign up</button>
+                   <!-- <button class="usa-button full-width-button">Register</button>-->
+                    <button class="usa-button full-width-button" type="reset" (click)="onReset()">Cancel</button>
+
+                </fieldset>
+            </form>
+        </div>
+        <!-- <label for="newuserValidation">{{newuserValidation}}</label> -->
+        <label class="usa-label" [(ngModel)]="newuserValidation1" for="newuserValidation1"></label>
+    </div>
+</section>

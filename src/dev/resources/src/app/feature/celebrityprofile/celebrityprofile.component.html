@@ -1,1 +1,53 @@
-<p>celebrityprofile works!</p>
+<div class="grid-container">
+  <br>
+  <div *ngIf="CelebrityProfile">
+
+    <p-card [style]="{'text-align': 'center'}" styleClass="ui-card-shadow">
+
+      <p-header>
+        <div class="card">
+          <div class="display-flex flex-column flex-align-center">
+            <div class="align center" id="avatar" [ngStyle]="{background: 'url(' + CelebrityProfile.headshot + ')', width: '70px', height: '75px'}" ></div>
+          </div>
+          <h2>{{CelebrityProfile.name}}</h2>
+          <h3 class="title">Born {{CelebrityProfile.birthDate | date:'MMMM d, yyyy'}} in {{CelebrityProfile.birthPlace}}</h3>
+          <h3 class="title">Height : {{CelebrityProfile.height}} </h3>
+        </div>
+      </p-header>
+      <p-carousel [value]="movies" styleClass="custom-carousel" [numVisible]="5" [numScroll]="2" [circular]="true" [autoplayInterval]="3000">
+        <p-header>
+          <h3>Movies</h3>
+        </p-header>
+        <ng-template let-movie pTemplate="item">
+          <div class="car-details">
+            <div class="p-grid p-nogutter">
+              <div class="p-col-12">
+                <img src="{{movie.coverUrl}}" />
+              </div>
+              <div class="p-col-12 car-data">
+                <div class="car-title">{{movie.movieTitle}}</div>
+                <div class="car-subtitle">{{movie.year}}</div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </p-carousel>
+
+      <p-panel header="Biography" [toggleable]="true">
+        <div> {{CelebrityProfile.miniBio}} </div>
+        <div align="center">
+          <highcharts-chart
+            id="worcloud-container"
+            [Highcharts]="Highcharts"
+            [constructorType]="chartConstructor"
+            [options]="chartOptions"
+            [callbackFunction]="chartCallback"
+            [(update)]="updateFromInput"
+            [oneToOne]="true"
+            style="width: 100%; display: block;"
+            ></highcharts-chart>
+        </div>
+      </p-panel>
+    </p-card>
+  </div>
+</div>

@@ -3,7 +3,7 @@ apiVersion: v1
 labels:
   template: bdso-testing-deployment
   group: bdso-testing-deployment
-  application: bdso-cognito
+  application: webapp
   environment: testing
 metadata:
   name: bdso-testing-deployment
@@ -14,34 +14,34 @@ objects:
 - kind: Service
   apiVersion: v1
   metadata:
-    name: "bdso-cognito-tst-svc"
+    name: "webapp-tst-svc"
   spec:
     ports:
-    - name: "bdso-cognito-tst-svc"
+    - name: "webapp-tst-svc"
       port: 9000
       targetPort: 9000
     selector:
-      name: "bdso-cognito-tst-dc"
+      name: "webapp-tst-dc"
     sessionAffinity: None
 
 #Application Route
 - kind: Route
   apiVersion: v1
   metadata:
-    name: bdso-cognito
+    name: webapp
   spec:
     tls:
       termination: edge
       insecureEdgeTerminationPolicy: Redirect
     to:
       kind: Service
-      name: "bdso-cognito-tst-svc"
+      name: "webapp-tst-svc"
 
 # Application ImageStream
 - kind: ImageStream
   apiVersion: v1
   metadata:
-    name: "bdso-cognito-is"
+    name: "webapp-is"
   spec:
     dockerImageRepository: "aceinfocoe"
     importPolicy:
@@ -51,58 +51,30 @@ objects:
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
-    name: "bdso-cognito-tst-dc"
+    name: "webapp-tst-dc"
   spec:
     replicas: 1
     selector:
-      name: "bdso-cognito-tst-dc"
+      name: "webapp-tst-dc"
     strategy:
       type: Rolling
     template:
       metadata:
         labels:
-          name: "bdso-cognito-tst-dc"
+          name: "webapp-tst-dc"
       spec:
         containers:
-        - name: bdso-cognito
-          image: "bdso-cognito-is"
+        - name: webapp
+          image: "webapp-is"
           env:
-          - name: AWS_ACCESS_KEY_ID
-            valueFrom:
-                configMapKeyRef:
-                  name: bdso-cognito-config-map 
-                  key: AWS_ACCESS_KEY_ID 
-          - name: AWS_DEFAULT_REGION
-            valueFrom:
-              configMapKeyRef:
-                name: bdso-cognito-config-map 
-                key: AWS_DEFAULT_REGION 
-          - name: AWS_SECRET_ACCESS_KEY
-            valueFrom:
-              configMapKeyRef:
-                name: bdso-cognito-config-map 
-                key: AWS_SECRET_ACCESS_KEY 
-          - name: CORS_FILTER
-            valueFrom:
-              configMapKeyRef:
-                name: bdso-cognito-config-map 
-                key: CORS_FILTER           
-          - name: COGNITO_CLIENT_ID
-            valueFrom:
-              configMapKeyRef:
-                name: bdso-cognito-config-map 
-                key: COGNITO_CLIENT_ID           
-          - name: COGNITO_POOL_ID
-            valueFrom:
-              configMapKeyRef:
-                name: bdso-cognito-config-map 
-                key: COGNITO_POOL_ID           
+          - name: DATABASE_NAME
+            value: -database
           ports:
           - containerPort: 9000
           imagePullPolicy: Always
           livenessProbe:
             httpGet:
-              path: /healthcheck
+              path: /
               port: 9000
             initialDelaySeconds: 45
             timeoutSeconds: 30
@@ -111,27 +83,28 @@ objects:
             failureThreshold: 10
           readinessProbe:
             httpGet:
-              path: /healthcheck
+              path: /
               port: 9000
-            initialDelaySeconds: 45
-            timeoutSeconds: 30
-            periodSeconds: 45
+              initialDelaySeconds: 90
+            timeoutSeconds: 180
+            periodSeconds: 90
             successThreshold: 1
             failureThreshold: 10
           resources:
             requests:
-              memory: 2048Mi
-              cpu: 1000m
+              memory: 256Mi
+              cpu: 100m
             limits:
-              memory: 2048Mi
-              cpu: 1000m
+              memory: 512Mi
+              cpu: 200m
+            
     triggers:
     - type: ConfigChange
     - type: ImageChange
       imageChangeParams:
         automatic: true
         containerNames:
-        - "bdso-cognito"
+        - "webapp"
         from:
           kind: ImageStream
-          name: "bdso-cognito-is:1.0.0"
+          name: "webapp-is:1.0.0"

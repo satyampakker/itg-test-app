@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+//import { LocalStorage } from '@ngx-pwa/local-storage';
+import { Subscription } from 'rxjs';
+import { CelebrityService } from '../../services/celebrity.service';
+import { MovieService } from '../../services/movie.service';
 import { ICelebrity, IMovie } from 'src/app/models/data.model';
 import * as Highcharts from "highcharts";
 import HighchartsNetworkgraph from "highcharts/modules/networkgraph";
@@ -15,6 +19,14 @@ HighchartsExporting(Highcharts);
 })
 export class VisualizeComponent implements OnInit {
 
+  chartLoaded = false;
+  celebData = false;
+  movieData = false;
+  celebStatus = false;
+  celebSub : Subscription;
+  movieStatus = false;
+  movieSub : Subscription;
+  graphLoaded = false;
   celebrityList : ICelebrity[];
   movieList : IMovie[];
   title = "app";
@@ -98,37 +110,97 @@ export class VisualizeComponent implements OnInit {
     ]
   };
 
-  constructor() { 
+  constructor(private celebService: CelebrityService,
+              private movieService: MovieService,
+  //            private localStor: LocalStorage
+             ) { 
     const self = this;
     
     this.chartCallback = chart => {
       self.chart = chart;
     };
+
+    this.celebSub = this.celebService._celebsReady$.subscribe(sub => {
+      this.celebStatus = sub;
+    });
+
+    this.movieSub = this.movieService._moviesReady$.subscribe(subs => {
+      this.movieStatus = subs;
+    });
+
   }
 
   ngOnInit() {
-    
-    this.celebrityList = JSON.parse(localStorage.getItem('celebrities'));
-    this.movieList = JSON.parse(localStorage.getItem('movies'));
+    //console.log('hello from ngOnInit in visualize component, celebs:');
+    //console.log(this.celebrityList);
+    //console.log('hello from ngOnInit in visualize component, movies:');
+    //console.log(this.movieList);
+
+  }
+
+
+  ngDoCheck(){
+    //console.log('in ngdoCheck:'+this.celebStatus+':'+this.movieStatus+':');
+
+    //checking if our data is populated
+    if (this.celebStatus){
+
+      this.celebService.getCelebrityList().subscribe(celebs => {
+        console.log('inside getting celeblist');
+        this.celebrityList = celebs;
+        this.celebData = true;
+        this.celebStatus = false;
+      });
+      //console.log(this.celebrityList);
+
+    }
+
+    //check if data populated
+    if (this.movieStatus){
+
+      this.movieService.getmoviesList().subscribe(movies => {
+        this.movieList = movies;
+        this.movieData = true;
+        this.movieStatus = false;
+      });
+      //console.log(this.movieList);
+
+    }
+
+    //if data is populated, load graph.
+    if (this.celebData && this.movieData){
+      if (!this.graphLoaded){
+        this.graphLoaded = true;
+        console.log('@@@@@@@@@@making our graph');
+        this.makeGraph();
+      }
+    }
+
+  }
+
+  makeGraph() {
 
     //Display only nodes for some celebrities 
-    this.celebrityList = this.celebrityList.slice(0, 10);
-    console.log(this.celebrityList);
+    //this.celebrityList = this.celebrityList.slice(0, 10);
+    //console.log("movies:"+this.movieList)
+    //console.log("celebrities"+this.celebrityList);
 
-    this.celebrityList.forEach(element => 
-      { 
-        //element.moviesList = element.moviesList.slice(0, 10); 
-      });
+    // this.celebrityList.forEach(element => 
+    //   { 
+    //     element.moviesList = element.moviesList.slice(0, 10); 
+    //   });
     
     const data = [];
     const nodes = [];
 
     this.celebrityList.forEach(element => 
       { 
-        //console.log(element.name);
+        //console.log('element:'+JSON.stringify(element, null, 4));
+        //console.log('elementname'+element.moviesList);
         element.moviesList.forEach( movie => 
         { 
-          //console.log(movie);
+          //console.log('movie:'+JSON.stringify(movie, null, 4));
+		  movie = movie['title'];
           //Check if the movies are in the Movies List since we are filtering Movie List
           //for movies released in last 10 years; instead of all movie nodes, it will be too many movie nodes without filtering
           if((this.movieList.findIndex(x => x.title === movie)) != -1)
@@ -145,16 +217,19 @@ export class VisualizeComponent implements OnInit {
             {
               nodes.push(node);
             }
+
+			//console.log('before second degree:'+JSON.stringify(movie, null,  4));
             
             //Second degree Links
             this.movieList.find(x => x.title === movie).actors.forEach(a => {
-              //console.log("Second degree : " + a[0]); 
-              if((this.celebrityList.findIndex(x => x.name === a[0])) != -1)
+              //console.log("Second degree a: " + JSON.stringify(a, null, 4)); 
+              //console.log("Second degree element: " + JSON.stringify(element.name, null, 4)); 
+              if((this.celebrityList.findIndex(x => x.name === a['actorName'])) != -1)
               {
-                if(element.name != a[0])
+                if(element.name != a['actorName'])
                 {
-                  //console.log(element.name + " --->" + a[0]);
-                  const link2 = [element.name, a[0], "dash"];
+       //           console.log(element.name + " --->" + a['actorName']);
+                  const link2 = [element.name, a['actorName'], "dash"];
                   if(data.indexOf(link2) == -1)
                   {
                     data.push(link2);
@@ -178,6 +253,7 @@ export class VisualizeComponent implements OnInit {
 
       this.chartOptions.series[0]['data'] = data;
       this.chartOptions.series[0]['nodes'] = nodes;
+      this.chartLoaded = true;
 
     //console.log("Printing Nodes");
     //console.log(this.chartOptions.series[0]['nodes']);
